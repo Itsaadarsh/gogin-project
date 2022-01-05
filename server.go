@@ -3,6 +3,8 @@ package main
 import (
 	"gogin/config"
 	"gogin/controller"
+	"gogin/repository"
+	"gogin/service"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -10,7 +12,10 @@ import (
 
 var (
 	db             *gorm.DB                  = config.SetupDBConnection()
-	authController controller.AuthController = controller.NewAuthController()
+	userRep        repository.UserRepository = repository.NewUserRepository(db)
+	authSevice     service.AuthService       = service.NewAuthService(userRep)
+	jwtService     service.JWTService        = service.NewJWTService()
+	authController controller.AuthController = controller.NewAuthController(authSevice, jwtService)
 )
 
 func main() {
