@@ -48,7 +48,7 @@ func (c *userController) Update(ctx *gin.Context) {
 	id, err := strconv.ParseUint(fmt.Sprintf("%v", claims["user_id"]), 10, 64)
 
 	if err != nil {
-		panic(errToken.Error())
+		panic(err.Error())
 	}
 
 	userUpdateDTO.ID = id
